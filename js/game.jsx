@@ -226,6 +226,7 @@ class Index extends React.Component {
         history.played.sort((x,y)=>(compareResult=x.difficulty.localeCompare(y.difficulty))==0?x.time.localeCompare(y.time):compareResult).forEach(game => {
           result+="<tr>"
           result+=`<th>${game.difficulty}</th>`
+          result+=`<th>${game.attempt}</th>`
           result+=`<th>${game.id}</th>`
           result+=`<th>${game.time}</th>`
           result+="</tr>"

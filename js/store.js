@@ -25,16 +25,6 @@ var Store = Redux.createStore(function (state, action) {
         history = { played: [] };
       }
       var board = Boards.randomBoard(action.difficulty, history);
-      if (board == null) {
-        alert(
-          "You have already funnished all sudoku from this difficulty. Starting from beginning"
-        );
-        history.played = history.played.filter(function (x) {
-          return x.difficulty != action.difficulty;
-        });
-        localStorage.history = JSON.stringify(history);
-        board = Boards.randomBoard(action.difficulty, history);
-      }
       state.game = Sudoku.boardToGame(board.cells);
       state.game.id = { difficulty: action.difficulty, id: board.id };
       state.game.won = false;

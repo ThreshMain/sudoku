@@ -883,32 +883,39 @@ function randomIntFromInterval(min, max) {
 }
 
 function getRamdomBoardFor(array, history) {
-  var x = [];
-  for (var i = 0; i < array.length; i++) {
-    if (!history.includes(i)) {
-      x.push(i);
+  var attemptNumber = 1;
+  var x;
+  do {
+    var filteredHistory = history
+      .filter(function (y) {
+        return y.attempt == attemptNumber;
+      })
+      .map(function (z) {
+        return z.id;
+      });
+    x = [];
+    for (var i = 0; i < array.length; i++) {
+      if (!filteredHistory.includes(i)) {
+        x.push(i);
+      }
     }
-  }
+    attemptNumber++;
+  } while (x.length == 0);
   var idx = randomIntFromInterval(0, x.length - 1);
   if (x[idx] != null) {
     return {
       id: x[idx],
       cells: array[x[idx]],
+      attempt: attemptNumber - 1,
     };
-  } else {
-    return null;
   }
 }
 
 var Boards = {
   randomBoard: function (difficulty, history) {
-    history = history.played
-      .filter(function (x) {
-        return x.difficulty == difficulty;
-      })
-      .map(function (x) {
-        return x.id;
-      });
+    history = history.played.filter(function (x) {
+      return x.difficulty == difficulty;
+    });
     switch (difficulty) {
       case "easy":
         return getRamdomBoardFor(easy, history);
