@@ -882,22 +882,42 @@ function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function getRamdomBoardFor(array) {
-  var idx = randomIntFromInterval(0, array.length - 1);
-  return array[idx];
+function getRamdomBoardFor(array, history) {
+  var x = [];
+  for (var i = 0; i < array.length; i++) {
+    if (!history.includes(i)) {
+      x.push(i);
+    }
+  }
+  var idx = randomIntFromInterval(0, x.length - 1);
+  if (x[idx] != null) {
+    return {
+      id: x[idx],
+      cells: array[x[idx]],
+    };
+  } else {
+    return null;
+  }
 }
 
 var Boards = {
-  randomBoard: function (difficulty) {
+  randomBoard: function (difficulty, history) {
+    var history = history.played
+      .filter(function (x) {
+        return x.difficulty == difficulty;
+      })
+      .map(function (x) {
+        return x.id;
+      });
     switch (difficulty) {
       case "easy":
-        return getRamdomBoardFor(easy);
+        return getRamdomBoardFor(easy, history);
       case "medium":
-        return getRamdomBoardFor(medium);
+        return getRamdomBoardFor(medium, history);
       case "hard":
-        return getRamdomBoardFor(hard);
+        return getRamdomBoardFor(hard, history);
       case "expert":
-        return getRamdomBoardFor(expert);
+        return getRamdomBoardFor(expert, history);
     }
   },
 };
