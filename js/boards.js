@@ -902,7 +902,7 @@ function getRamdomBoardFor(array, history) {
 
 var Boards = {
   randomBoard: function (difficulty, history) {
-    var history = history.played
+    history = history.played
       .filter(function (x) {
         return x.difficulty == difficulty;
       })
