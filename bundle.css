@@ -361,6 +361,7 @@ th {
 .score-board th {
   border: 2px solid black;
   padding: 5px;
+  background-color: #b9b9b9;
 }
 .expert {
   border: 2px solid red;
@@ -377,6 +378,7 @@ th {
   height: 20px;
 }
 .sudoku-table input {
+  background-color: #b9b9b9;
   width: 20px;
   height: 20px;
   border: 0px;
@@ -387,9 +389,6 @@ th {
   margin-top: 15px;
   margin-left: auto;
   margin-right: auto;
-}
-.controls * {
-  margin-left: 5px;
 }
 .i2,
 .i5 {
@@ -434,7 +433,9 @@ th {
   }
 }
 .dialog {
-  background-color: #f0f0f0;
+  margin-top: 50px;
+  padding: 20px;
+  background-color: #b9b9b9;
   width: 400px;
   height: 400px;
   margin-left: auto;
@@ -454,4 +455,31 @@ th {
 }
 .index {
   text-align: center;
+}
+body {
+  background-color: #a09e9e;
+}
+a {
+  background-color: #b9b9b9;
+  border: 2px solid #b9b9b9;
+  text-decoration: none;
+  font-weight: bold;
+}
+p.back a {
+  margin: auto;
+  display: block;
+  width: fit-content;
+}
+a:link,
+a:visited,
+a:hover,
+a:active {
+  color: #1d609e;
+}
+.text,
+.congratulations {
+  background-color: #b9b9b9;
+  border: 5px solid #b9b9b9;
+  width: fit-content;
+  margin: auto;
 }
