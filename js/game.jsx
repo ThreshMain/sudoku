@@ -88,22 +88,24 @@ class Controls extends React.Component {
   componentWillUnmount() {
     this.unsubscribe();
   }
-
-  render() {
+  getTime(){
     var time = this.state.game.time;
     function f(num) {
-      if (num < 10) {
-        return '0'+num;
-      } else {
-        return ''+num;
-      }
+    if (num < 10) {
+      return '0'+num;
+    } else {
+      return ''+num;
     }
+  }
+    return f(time.getHours())+':'+f(time.getMinutes())+':'+f(time.getSeconds())
+  }
+  render() {
     return (
       <div className="controls">
-        <p><Link to="/">Back</Link></p>
+        <p className="back"><Link to="/">Back</Link></p>
         {Sudoku.isComplete(this.state.game.cells)
-          ? <p className="congratulations">Trvalo ti to {f(time.getHours())+':'+f(time.getMinutes())+':'+f(time.getSeconds())} ale uz jsi vyhrala gratulace :D</p>
-          : <p>{f(time.getHours())+':'+f(time.getMinutes())+':'+f(time.getSeconds())}</p>}
+          ? <p className="congratulations">Trvalo ti to {this.getTime()} ale uz jsi vyhrala gratulace :D</p>
+          : <p className="text">{this.getTime()}</p>}
       </div>
     )
   }
