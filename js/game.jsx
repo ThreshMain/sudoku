@@ -212,29 +212,32 @@ class Index extends React.Component {
         {this.hasExistingGame()
           ? <p>or <Link to="play">resume the existing one</Link></p>
           : null}
-          <div className="score-board" dangerouslySetInnerHTML={{__html: this.createScoreBoard()}}></div>
+          {this.createScoreBoard()}
+
       </div>
     );
   }
   createScoreBoard() {
-    var compareResult;
-    var result ="";
+    var result;
     if(typeof localStorage.history !== 'undefined'){
       var history = JSON.parse(localStorage.history)
+      var rows=[];
       if(history.played.length > 0){
-        result+="<table>"
-        history.played.sort((x,y)=>(compareResult=x.difficulty.localeCompare(y.difficulty))==0?x.time.localeCompare(y.time):compareResult).forEach(game => {
-          result+="<tr>"
-          result+=`<th>${game.difficulty}</th>`
-          result+=`<th>${game.attempt}</th>`
-          result+=`<th>${game.id}</th>`
-          result+=`<th>${game.time}</th>`
-          result+="</tr>"
+        history.played.sort((x,y)=>(result=x.difficulty.localeCompare(y.difficulty))==0?x.time.localeCompare(y.time):result).forEach(game => {
+          rows.push(<tr>
+          <th>{game.difficulty}</th>
+          <th>{game.attempt}</th>
+          <th>{game.id}</th>
+          <th>{game.time}</th>
+          </tr>);
         });
-        result+="<table>"
       }
+    }else{
+      return "";
     }
-    return result;
+    return (<table className="score-board">
+      {rows}
+    </table>);
   }
   hasExistingGame() {
     return (typeof localStorage.currentGame !== 'undefined');
