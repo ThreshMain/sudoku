@@ -353,7 +353,7 @@ td,
 th {
   padding: 0;
 }
-.score-board table {
+.score-board {
   margin: auto;
   border-collapse: collapse;
   width: 50%;
@@ -373,14 +373,15 @@ th {
 }
 .sudoku-table td {
   border: 1px solid black;
-  width: 50px;
-  height: 50px;
+  width: 20px;
+  height: 20px;
 }
 .sudoku-table input {
-  width: 50px;
-  height: 50px;
+  width: 20px;
+  height: 20px;
   border: 0px;
   text-align: center;
+  font-size: normal;
 }
 .controls {
   margin-top: 15px;
@@ -404,17 +405,32 @@ th {
 .has-conflict input {
   color: red;
 }
-@media (max-width: 600px) {
-  .github-corner {
-    display: none;
-  }
-}
 @media (min-width: 600px) {
   .sudoku-table {
     margin-top: 50px;
   }
+  .sudoku-table td {
+    width: 40px;
+    height: 40px;
+  }
+  .sudoku-table input {
+    width: 40px;
+    height: 40px;
+    font-size: large;
+  }
   .controls {
     width: 400px;
+  }
+}
+@media (min-width: 800px) {
+  .sudoku-table td {
+    width: 60px;
+    height: 60px;
+  }
+  .sudoku-table input {
+    width: 60px;
+    height: 60px;
+    font-size: xx-large;
   }
 }
 .dialog {
