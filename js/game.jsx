@@ -2,7 +2,7 @@ var React = require('react');
 var Store = require('./store');
 var Sudoku = require('./sudoku');
 var Boards = require('./boards');
-import {Link} from 'react-router';
+import { Link } from 'react-router';
 
 class Cell extends React.Component {
   constructor(props) {
@@ -26,8 +26,8 @@ class Cell extends React.Component {
     var cell = this.props.cell;
 
     var classes = [];
-    classes.push('i'+cell.i);
-    classes.push('j'+cell.j);
+    classes.push('i' + cell.i);
+    classes.push('j' + cell.j);
     classes.push(cell.editable ? 'editable' : 'not-editable');
     classes.push(cell.hasConflict ? 'has-conflict' : 'no-conflict');
 
@@ -80,7 +80,7 @@ class Controls extends React.Component {
 
   componentDidMount() {
     var self = this;
-    self.unsubscribe = Store.subscribe(function() {
+    self.unsubscribe = Store.subscribe(function () {
       self.setState(Store.getState());
     });
   }
@@ -88,16 +88,16 @@ class Controls extends React.Component {
   componentWillUnmount() {
     this.unsubscribe();
   }
-  getTime(){
+  getTime() {
     var time = this.state.game.time;
     function f(num) {
-    if (num < 10) {
-      return '0'+num;
-    } else {
-      return ''+num;
+      if (num < 10) {
+        return '0' + num;
+      } else {
+        return '' + num;
+      }
     }
-  }
-    return f(time.getHours())+':'+f(time.getMinutes())+':'+f(time.getSeconds())
+    return f(time.getHours()) + ':' + f(time.getMinutes()) + ':' + f(time.getSeconds())
   }
   render() {
     return (
@@ -125,7 +125,7 @@ class DifficultyDialog extends React.Component {
 
   componentDidMount() {
     var self = this;
-    self.unsubscribe =  Store.subscribe(function() {
+    self.unsubscribe = Store.subscribe(function () {
       self.setState(Store.getState());
     });
   }
@@ -138,6 +138,8 @@ class DifficultyDialog extends React.Component {
     return (
       <div className="dialog">
         <p>Please, choose the difficulty:</p>
+        <input id="index" type="number" />
+        <br />
         <button data-difficulty="easy" onClick={this.difficultyClick}>Easy</button>
         <button data-difficulty="medium" onClick={this.difficultyClick}>Medium</button>
         <button data-difficulty="hard" onClick={this.difficultyClick}>Hard</button>
@@ -150,8 +152,20 @@ class DifficultyDialog extends React.Component {
   difficultyClick(event) {
     event.preventDefault();
     var difficulty = event.target.getAttribute('data-difficulty');
-    Store.dispatch({type: 'NEW_GAME', difficulty});
-    location.hash = 'play';
+    var index = document.getElementById("index").value;
+    if (index > 0) {
+      index--;
+      var check_index_result = Boards.checkIndex(index, difficulty);
+      if (check_index_result == -1) {
+        Store.dispatch({ type: 'NEW_GAME_INDEX', difficulty, index });
+        location.hash = 'play';
+      } else {
+        alert("Not valid number for this difficulty. max(" + check_index_result + ")");
+      }
+    } else {
+      Store.dispatch({ type: 'NEW_GAME_RANDOM', difficulty });
+      location.hash = 'play';
+    }
   }
 }
 
@@ -163,12 +177,12 @@ class Game extends React.Component {
 
   componentDidMount() {
     var self = this;
-    this.unsubscribe = Store.subscribe(function() {
+    this.unsubscribe = Store.subscribe(function () {
       self.setState(Store.getState());
     });
 
-    this.addSecond = setInterval(function() {
-      Store.dispatch({type: 'ADD_SECOND'});
+    this.addSecond = setInterval(function () {
+      Store.dispatch({ type: 'ADD_SECOND' });
     }, 1000);
   }
 
@@ -187,10 +201,10 @@ class Game extends React.Component {
       <div>
         <table className="sudoku-table">
           <tbody>
-            {this.state.game.cells.map(function(line, i) {
+            {this.state.game.cells.map(function (line, i) {
               return (
                 <tr key={i}>
-                  {line.map(function(cell) {
+                  {line.map(function (cell) {
                     return <Cell cell={cell} key={cell.j} />;
                   })}
                 </tr>
@@ -214,27 +228,27 @@ class Index extends React.Component {
         {this.hasExistingGame()
           ? <p>or <Link to="play">resume the existing one</Link></p>
           : null}
-          {this.createScoreBoard()}
+        {this.createScoreBoard()}
 
       </div>
     );
   }
   createScoreBoard() {
     var result;
-    if(typeof localStorage.history !== 'undefined'){
+    if (typeof localStorage.history !== 'undefined') {
       var history = JSON.parse(localStorage.history)
-      var rows=[];
-      if(history.played.length > 0){
-        history.played.sort((x,y)=>(result=x.difficulty.localeCompare(y.difficulty))==0?x.time.localeCompare(y.time):result).forEach(game => {
+      var rows = [];
+      if (history.played.length > 0) {
+        history.played.sort((x, y) => (result = x.difficulty.localeCompare(y.difficulty)) == 0 ? x.time.localeCompare(y.time) : result).forEach(game => {
           rows.push(<tr>
-          <th>{game.difficulty}</th>
-          <th>{game.attempt}</th>
-          <th>{game.id}</th>
-          <th>{game.time}</th>
+            <th>{game.difficulty}</th>
+            <th>{game.attempt}</th>
+            <th>{game.id}</th>
+            <th>{game.time}</th>
           </tr>);
         });
       }
-    }else{
+    } else {
       return "";
     }
     return (<table className="score-board">
@@ -254,4 +268,4 @@ function App(props) {
   );
 }
 
-module.exports = {App, DifficultyDialog, Game, Index};
+module.exports = { App, DifficultyDialog, Game, Index };

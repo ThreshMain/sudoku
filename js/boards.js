@@ -910,6 +910,20 @@ function getRamdomBoardFor(array, history) {
     };
   }
 }
+function getBoard(array, index, history) {
+  var attemptNumber = 0;
+  history = history.filter(function (x) {
+    return x.id == index;
+  });
+  if (history.length > 0) {
+    attemptNumber = history.length;
+  }
+  return {
+    id: index,
+    cells: array[index],
+    attempt: attemptNumber + 1,
+  };
+}
 
 var Boards = {
   randomBoard: function (difficulty, history) {
@@ -926,6 +940,42 @@ var Boards = {
       case "expert":
         return getRamdomBoardFor(expert, history);
     }
+  },
+  boardFromIndex: function (difficulty, index, history) {
+    history = history.played.filter(function (x) {
+      return x.difficulty == difficulty;
+    });
+    switch (difficulty) {
+      case "easy":
+        return getBoard(easy, index, history);
+      case "medium":
+        return getBoard(medium, index, history);
+      case "hard":
+        return getBoard(hard, index, history);
+      case "expert":
+        return getBoard(expert, index, history);
+    }
+  },
+  checkIndex: function (index, difficulty) {
+    var boards;
+    switch (difficulty) {
+      case "easy":
+        boards = easy;
+        break;
+      case "medium":
+        boards = medium;
+        break;
+      case "hard":
+        boards = hard;
+        break;
+      case "expert":
+        boards = expert;
+        break;
+    }
+    if (index < boards.length) {
+      return -1;
+    }
+    return boards.length;
   },
 };
 

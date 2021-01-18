@@ -4,7 +4,7 @@ var Sudoku = require("./sudoku");
 var cloneDeep = require("lodash.clonedeep");
 
 var Store = Redux.createStore(function (state, action) {
-  var history;
+  var history, board;
   function f(e) {
     return e < 10 ? "0" + e : "" + e;
   }
@@ -18,13 +18,24 @@ var Store = Redux.createStore(function (state, action) {
       state.game = JSON.parse(localStorage.currentGame);
       state.game.time = new Date(state.game.time);
       break;
-    case "NEW_GAME":
+    case "NEW_GAME_RANDOM":
       if (localStorage.history) {
         history = JSON.parse(localStorage.history);
       } else {
         history = { played: [] };
       }
-      var board = Boards.randomBoard(action.difficulty, history);
+      board = Boards.randomBoard(action.difficulty, history);
+      state.game = Sudoku.boardToGame(board.cells);
+      state.game.id = { difficulty: action.difficulty, id: board.id };
+      state.game.won = false;
+      break;
+    case "NEW_GAME_INDEX":
+      if (localStorage.history) {
+        history = JSON.parse(localStorage.history);
+      } else {
+        history = { played: [] };
+      }
+      board = Boards.boardFromIndex(action.difficulty, action.index, history);
       state.game = Sudoku.boardToGame(board.cells);
       state.game.id = { difficulty: action.difficulty, id: board.id };
       state.game.won = false;
@@ -54,6 +65,9 @@ var Store = Redux.createStore(function (state, action) {
       if (state.game && !state.game.won) {
         state.game.time.setSeconds(state.game.time.getSeconds() + 1);
       }
+      break;
+    case "CHECK_INDEX":
+      Boards.checkIndex(action.index, action.difficulty);
       break;
   }
   if (state.game) {
