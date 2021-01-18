@@ -3,7 +3,17 @@ input[type="number"] {
   width: 50%;
   margin-bottom: 10px;
 }
-
+.sudoku-title {
+  width: fit-content;
+  margin: auto;
+  margin-top: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 5px;
+  background-color: #b9b9b9;
+  border: 3px solid black;
+  margin-bottom: -3px;
+}
 .score-board {
   margin: auto;
   border-collapse: collapse;
@@ -69,7 +79,6 @@ input[type="number"] {
 
 @media (min-width: 600px) {
   .sudoku-table {
-    margin-top: 50px;
     td {
       width: 40px;
       height: 40px;
@@ -80,6 +89,9 @@ input[type="number"] {
       height: 40px;
       font-size: large;
     }
+  }
+  .sudoku-title {
+    margin-top: 50px;
   }
 
   .controls {

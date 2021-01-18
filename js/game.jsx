@@ -199,6 +199,7 @@ class Game extends React.Component {
 
     return (
       <div>
+        <div className="sudoku-title">{this.state.game.id.difficulty + "_" + (this.state.game.id.id + 1) + "/" + this.state.game.id.attempt}</div>
         <table className="sudoku-table">
           <tbody>
             {this.state.game.cells.map(function (line, i) {
