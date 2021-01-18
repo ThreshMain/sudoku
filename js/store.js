@@ -37,7 +37,12 @@ var Store = Redux.createStore(function (state, action) {
       }
       board = Boards.boardFromIndex(action.difficulty, action.index, history);
       state.game = Sudoku.boardToGame(board.cells);
-      state.game.id = { difficulty: action.difficulty, id: board.id };
+      state.game.id = {
+        difficulty: action.difficulty,
+        id: board.id,
+        attempt: board.attempt,
+      };
+      console.log(state.game);
       state.game.won = false;
       break;
     case "CHANGE_VALUE":

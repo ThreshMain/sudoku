@@ -243,7 +243,7 @@ class Index extends React.Component {
           rows.push(<tr>
             <th>{game.difficulty}</th>
             <th>{game.attempt}</th>
-            <th>{game.id}</th>
+            <th>{game.id + 1}</th>
             <th>{game.time}</th>
           </tr>);
         });
