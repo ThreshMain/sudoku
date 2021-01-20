@@ -38,11 +38,42 @@ input[type="number"] {
     width: 20px;
     height: 20px;
   }
-
   input {
     background-color: #b9b9b9;
     width: 20px;
     height: 20px;
+    border: 0px;
+    text-align: center;
+    font-size: normal;
+  }
+}
+.cell-options {
+  margin-top: -3px;
+  cursor: pointer;
+  border: 3px solid black;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 16pt;
+
+  td {
+    background-color: #b9b9b9;
+    border: 1px solid black;
+    width: 20px;
+    padding: 2px;
+    height: 20px;
+  }
+  td.on {
+    font-weight: bold;
+    color: black;
+  }
+  td.off {
+    font-weight: normal;
+    color: rgba(36, 36, 36, 0.596);
+  }
+
+  div {
+    width: 100%;
+    height: 100%;
     border: 0px;
     text-align: center;
     font-size: normal;
@@ -67,7 +98,8 @@ input[type="number"] {
 
 .not-editable {
   input {
-    font-weight: bold;
+    font-weight: 700;
+    cursor: not-allowed;
   }
 }
 
@@ -78,10 +110,15 @@ input[type="number"] {
 }
 
 @media (min-width: 600px) {
-  .sudoku-table {
+  .sudoku-table,
+  .cell-options {
     td {
       width: 40px;
       height: 40px;
+    }
+    div {
+      line-height: 40px;
+      font-size: large;
     }
 
     input {
@@ -99,10 +136,15 @@ input[type="number"] {
   }
 }
 @media (min-width: 800px) {
-  .sudoku-table {
+  .sudoku-table,
+  .cell-options {
     td {
       width: 60px;
       height: 60px;
+    }
+    div {
+      line-height: 60px;
+      font-size: xx-large;
     }
 
     input {

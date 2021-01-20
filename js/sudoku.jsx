@@ -1,18 +1,24 @@
 var chunk = require('lodash.chunk');
 
 function newCell(i, j, value, editable) {
+  var options = [];
+  for (var l = 1; l < 10; l++) {
+    options.push({ value: l, selected: false });
+  }
   return {
     value,
     editable,
     hasConflict: false,
     i,
-    j
+    j,
+    options
   }
 }
 
 function newGame(cells, time) {
   return {
     cells,
+    selectedCell: null,
     time: time || new Date(0, 0, 0, 0, 0, 0, 0)
   }
 }

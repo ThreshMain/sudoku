@@ -7,7 +7,6 @@ import { Link } from 'react-router';
 class Cell extends React.Component {
   constructor(props) {
     super(props);
-
     this.onClick = this.onClick.bind(this);
     this.onChange = this.onChange.bind(this);
   }
@@ -45,6 +44,10 @@ class Cell extends React.Component {
   onClick(event) {
     event.preventDefault();
     if (this.props.cell.editable) {
+      Store.dispatch({
+        type: 'SELECT_CELL',
+        cell: this.props.cell
+      });
       event.target.select();
     } else {
       event.target.blur();
@@ -71,7 +74,31 @@ class Cell extends React.Component {
   }
 }
 
+class ToggleCell extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onClick = this.onClick.bind(this);
+  }
 
+  render() {
+    var cell = this.props.toggleCell;
+    return (
+      <td className={cell.selected ? 'on' : 'off'}>
+        <div onClick={this.onClick}>{cell.value}</div>
+      </td>
+    );
+  }
+
+  onClick(event) {
+    event.preventDefault();
+    this.props.toggleCell.selected = !this.props.toggleCell.selected;
+    Store.dispatch({
+      type: 'CHANGE_CELL_OPTIONS',
+      value: this.props.toggleCell.selected,
+      index: this.props.toggleCell.value - 1,
+    });
+  }
+}
 class Controls extends React.Component {
   constructor(props) {
     super(props);
@@ -213,10 +240,31 @@ class Game extends React.Component {
             })}
           </tbody>
         </table>
+        <table className="cell-options">
+          <tbody>
+            {this.renderOptions()}
+          </tbody>
+        </table>
 
         <Controls />
       </div>
     );
+  }
+  renderOptions() {
+    var cell = this.state.game.selectedCell;
+    if (cell) {
+      var lines = [];
+      for (var i = 0; i < 3; i++) {
+        var line = [];
+        for (var j = 0; j < 3; j++) {
+          var toggleCell = cell.options[i * 3 + j];
+          line.push(<ToggleCell toggleCell={toggleCell} key={i * 3 + j} />)
+        }
+        lines.push(<tr key={i}>{line}</tr>)
+      }
+      return lines;
+    }
+    return "";
   }
 }
 

@@ -14,6 +14,25 @@ var Store = Redux.createStore(function (state, action) {
     state = cloneDeep(state);
   }
   switch (action.type) {
+    case "CHANGE_CELL_OPTIONS":
+      var cell;
+      for (var i = 0; i < state.game.cells.length; i++) {
+        var line = state.game.cells[i];
+        for (var j = 0; j < line.length; j++) {
+          var currentCell = line[j];
+          if (
+            currentCell.i == state.game.selectedCell.i &&
+            currentCell.j == state.game.selectedCell.j
+          ) {
+            cell = currentCell;
+          }
+        }
+      }
+      cell.options[action.index].selected = action.value;
+      break;
+    case "SELECT_CELL":
+      state.game.selectedCell = action.cell;
+      break;
     case "RESUME_GAME":
       state.game = JSON.parse(localStorage.currentGame);
       state.game.time = new Date(state.game.time);
@@ -46,7 +65,6 @@ var Store = Redux.createStore(function (state, action) {
         id: board.id,
         attempt: board.attempt,
       };
-      console.log(state.game);
       state.game.won = false;
       break;
     case "CHANGE_VALUE":
