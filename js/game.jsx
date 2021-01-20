@@ -169,9 +169,9 @@ class DifficultyDialog extends React.Component {
         <p>Please, choose the difficulty:</p>
         <input id="index" type="number" />
         <br />
-        <button data-difficulty="easy" onClick={this.difficultyClick}>Easy</button>
-        <button data-difficulty="medium" onClick={this.difficultyClick}>Medium</button>
-        <button data-difficulty="hard" onClick={this.difficultyClick}>Hard</button>
+        <button className="easy" data-difficulty="easy" onClick={this.difficultyClick}>Easy</button>
+        <button className="medium" data-difficulty="medium" onClick={this.difficultyClick}>Medium</button>
+        <button className="hard" data-difficulty="hard" onClick={this.difficultyClick}>Hard</button>
         <button className="expert" data-difficulty="expert" onClick={this.difficultyClick}>Expert</button>
         <Link to="/" className="dialog-close">&#x2715;</Link>
       </div>
@@ -228,7 +228,7 @@ class Game extends React.Component {
 
     return (
       <div>
-        <div className="sudoku-title">{this.state.game.id.difficulty + "_" + (this.state.game.id.id + 1) + "/" + this.state.game.id.attempt}</div>
+        <div className={"sudoku-title " + this.state.game.id.difficulty}>{this.state.game.id.difficulty + "_" + (this.state.game.id.id + 1) + "/" + this.state.game.id.attempt}</div>
         <table className="sudoku-table">
           <tbody>
             {this.state.game.cells.map(function (line, i) {
@@ -285,24 +285,35 @@ class Index extends React.Component {
     );
   }
   createScoreBoard() {
-    var result;
     if (typeof localStorage.history !== 'undefined') {
       var history = JSON.parse(localStorage.history)
       var rows = [];
       if (history.played.length > 0) {
-        history.played.sort((x, y) => (result = x.difficulty.localeCompare(y.difficulty)) == 0 ? x.time.localeCompare(y.time) : result).forEach(game => {
-          rows.push(<tr>
-            <th>{game.difficulty}</th>
-            <th>{game.attempt}</th>
-            <th>{game.id + 1}</th>
-            <th>{game.time}</th>
-          </tr>);
-        });
+        history.played.sort(
+          function (x, y) {
+            var r1 = x.difficulty.localeCompare(y.difficulty);
+            var r2 = x.id - y.id;
+            var r3 = x.time.localeCompare(y.time);
+            return r1 != 0 ? r1 : r2 != 0 ? r2 : r3;
+          }).forEach(game => {
+            rows.push(<tr className={game.difficulty}>
+              <td>{game.difficulty}</td>
+              <td>{game.attempt}</td>
+              <td>{game.id + 1}</td>
+              <td>{game.time}</td>
+            </tr>);
+          });
       }
     } else {
-      return "";
+      return null;
     }
     return (<table className="score-board">
+      <tr>
+        <th>Difficulty</th>
+        <th>Attempt</th>
+        <th>ID</th>
+        <th>Time</th>
+      </tr>
       {rows}
     </table>);
   }

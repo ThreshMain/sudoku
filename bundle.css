@@ -371,18 +371,32 @@ input[type="number"] {
   border: 3px solid black;
   margin-bottom: -3px;
 }
+.easy {
+  background-color: rgba(87, 170, 87, 0.993);
+}
+.medium {
+  background-color: rgba(177, 161, 69, 0.993);
+}
+.hard {
+  background-color: rgba(179, 121, 35, 0.993);
+}
+.expert {
+  background-color: rgba(172, 69, 55, 0.993);
+}
 .score-board {
+  border: 2px solid black;
   margin: auto;
   border-collapse: collapse;
   width: 50%;
+}
+.score-board td {
+  border-bottom: 2px solid black;
+  padding: 5px;
 }
 .score-board th {
   border: 2px solid black;
   padding: 5px;
   background-color: #b9b9b9;
-}
-.expert {
-  border: 2px solid red;
 }
 .sudoku-table {
   border: 3px solid black;
@@ -510,6 +524,9 @@ input[type="number"] {
 .dialog * {
   margin-left: 5px;
   font-size: 20px;
+}
+.dialog .expert {
+  border: 2px solid red;
 }
 .dialog-close {
   position: relative;
