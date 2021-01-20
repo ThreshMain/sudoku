@@ -11,7 +11,8 @@ function newCell(i, j, value, editable) {
     hasConflict: false,
     i,
     j,
-    options
+    options: options,
+    selected: false,
   }
 }
 

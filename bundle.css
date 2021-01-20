@@ -353,6 +353,9 @@ td,
 th {
   padding: 0;
 }
+body {
+  user-select: none;
+}
 input[type="number"] {
   width: 50%;
   margin-bottom: 10px;
@@ -391,6 +394,9 @@ input[type="number"] {
   border: 1px solid black;
   width: 20px;
   height: 20px;
+}
+.sudoku-table td.on {
+  outline: -webkit-focus-ring-color auto 1px;
 }
 .sudoku-table input {
   background-color: #b9b9b9;

@@ -17,7 +17,8 @@ class Cell extends React.Component {
     return (
       oldCell.value !== newCell.value ||
       oldCell.editable !== newCell.editable ||
-      oldCell.hasConflict !== newCell.hasConflict
+      oldCell.hasConflict !== newCell.hasConflict ||
+      oldCell.selected !== newCell.selected
     );
   }
 
@@ -29,6 +30,7 @@ class Cell extends React.Component {
     classes.push('j' + cell.j);
     classes.push(cell.editable ? 'editable' : 'not-editable');
     classes.push(cell.hasConflict ? 'has-conflict' : 'no-conflict');
+    classes.push(cell.selected ? 'on' : 'off');
 
     return (
       <td className={classes.join(' ')}>

@@ -31,7 +31,37 @@ var Store = Redux.createStore(function (state, action) {
       cell.options[action.index].selected = action.value;
       break;
     case "SELECT_CELL":
+      if (state.game.selectedCell) {
+        var cell;
+        for (var i = 0; i < state.game.cells.length; i++) {
+          var line = state.game.cells[i];
+          for (var j = 0; j < line.length; j++) {
+            var currentCell = line[j];
+            if (
+              currentCell.i == state.game.selectedCell.i &&
+              currentCell.j == state.game.selectedCell.j
+            ) {
+              cell = currentCell;
+            }
+          }
+        }
+        cell.selected = false;
+      }
       state.game.selectedCell = action.cell;
+      var cell;
+      for (var i = 0; i < state.game.cells.length; i++) {
+        var line = state.game.cells[i];
+        for (var j = 0; j < line.length; j++) {
+          var currentCell = line[j];
+          if (
+            currentCell.i == state.game.selectedCell.i &&
+            currentCell.j == state.game.selectedCell.j
+          ) {
+            cell = currentCell;
+          }
+        }
+      }
+      cell.selected = true;
       break;
     case "RESUME_GAME":
       state.game = JSON.parse(localStorage.currentGame);

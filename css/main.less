@@ -1,4 +1,7 @@
 @import "normalize";
+body {
+  user-select: none;
+}
 input[type="number"] {
   width: 50%;
   margin-bottom: 10px;
@@ -37,6 +40,9 @@ input[type="number"] {
     border: 1px solid black;
     width: 20px;
     height: 20px;
+  }
+  td.on {
+    outline: -webkit-focus-ring-color auto 1px;
   }
   input {
     background-color: #b9b9b9;
