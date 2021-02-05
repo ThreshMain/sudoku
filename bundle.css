@@ -355,9 +355,9 @@ th {
 }
 .colorPicker {
   position: absolute;
-  height: 50vh;
-  width: 10vh;
-  top: 25vh;
+  height: 25vh;
+  width: 5vh;
+  top: 16vh;
 }
 .colorPicker div {
   height: 20%;
@@ -519,6 +519,11 @@ input[type="number"] {
   color: red;
 }
 @media (min-width: 600px) {
+  .colorPicker {
+    height: 35vh;
+    width: 7vh;
+    top: 15vh;
+  }
   .sudoku-table td,
   .cell-options td {
     width: 40px;
@@ -543,6 +548,11 @@ input[type="number"] {
   }
 }
 @media (min-width: 800px) {
+  .colorPicker {
+    height: 50vh;
+    width: 10vh;
+    top: 20vh;
+  }
   .sudoku-table td,
   .cell-options td {
     width: 60px;
