@@ -38,7 +38,10 @@ var Store = Redux.createStore(function (state, action) {
         line = state.game.cells[i];
         for (j = 0; j < line.length; j++) {
           currentCell = line[j];
-          if (currentCell.color == state.game.selectedColor) {
+          if (
+            currentCell.color == state.game.selectedColor &&
+            currentCell.editable
+          ) {
             currentCell.color = 0;
             currentCell.value = null;
           }
