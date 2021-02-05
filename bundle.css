@@ -366,7 +366,10 @@ th {
   width: 100%;
 }
 .colorPicker .selected {
-  box-shadow: inset 0 0 9px 3px #ffffff;
+  box-shadow: inset 0 0 15px 3px #000;
+}
+.colorPicker .selected.black {
+  box-shadow: inset 0 0 9px 3px #fff;
 }
 .colorPicker .black {
   background-color: black;
@@ -375,7 +378,7 @@ th {
   background-color: red;
 }
 .colorPicker .yellow {
-  background-color: #8f8f28;
+  background-color: yellow;
 }
 .colorPicker .green {
   background-color: green;
