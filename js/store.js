@@ -30,13 +30,27 @@ var Store = Redux.createStore(function (state, action) {
       }
       cell.options[action.index].selected = action.value;
       break;
+    case "CHANGE_ACTIVE_COLOR":
+      state.game.selectedColor = action.color;
+      break;
+    case "THRASH":
+      for (i = 0; i < state.game.cells.length; i++) {
+        line = state.game.cells[i];
+        for (j = 0; j < line.length; j++) {
+          currentCell = line[j];
+          if (currentCell.color == state.game.selectedColor) {
+            currentCell.color = 0;
+            currentCell.value = null;
+          }
+        }
+      }
+      break;
     case "SELECT_CELL":
       if (state.game.selectedCell) {
-        var cell;
-        for (var i = 0; i < state.game.cells.length; i++) {
-          var line = state.game.cells[i];
-          for (var j = 0; j < line.length; j++) {
-            var currentCell = line[j];
+        for (i = 0; i < state.game.cells.length; i++) {
+          line = state.game.cells[i];
+          for (j = 0; j < line.length; j++) {
+            currentCell = line[j];
             if (
               currentCell.i == state.game.selectedCell.i &&
               currentCell.j == state.game.selectedCell.j
@@ -48,11 +62,10 @@ var Store = Redux.createStore(function (state, action) {
         cell.selected = false;
       }
       state.game.selectedCell = action.cell;
-      var cell;
-      for (var i = 0; i < state.game.cells.length; i++) {
-        var line = state.game.cells[i];
-        for (var j = 0; j < line.length; j++) {
-          var currentCell = line[j];
+      for (i = 0; i < state.game.cells.length; i++) {
+        line = state.game.cells[i];
+        for (j = 0; j < line.length; j++) {
+          currentCell = line[j];
           if (
             currentCell.i == state.game.selectedCell.i &&
             currentCell.j == state.game.selectedCell.j
@@ -99,6 +112,11 @@ var Store = Redux.createStore(function (state, action) {
       break;
     case "CHANGE_VALUE":
       state.game.cells[action.i][action.j].value = action.value;
+      if (state.game.selectedColor) {
+        state.game.cells[action.i][action.j].color = state.game.selectedColor;
+      } else {
+        state.game.cells[action.i][action.j].color = 0;
+      }
       state.game.won = Sudoku.isComplete(state.game.cells);
       if (state.game.won) {
         state.game.id.time =

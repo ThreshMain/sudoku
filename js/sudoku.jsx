@@ -7,6 +7,7 @@ function newCell(i, j, value, editable) {
   }
   return {
     value,
+    color: 0,
     editable,
     hasConflict: false,
     i,
@@ -56,9 +57,9 @@ function checkConflicts(cells) {
   }
 
   // check vertical lines
-  for (var j = 0; j < 9; j++) {
-    var arr = [];
-    for (var i = 0; i < 9; i++) {
+  for (j = 0; j < 9; j++) {
+    arr = [];
+    for (i = 0; i < 9; i++) {
       arr.push(cells[i][j]);
     }
     checkSubset(arr);
@@ -104,7 +105,7 @@ function boardToGame(board) {
   array = chunk(array, 9);
 
   var game = []
-  for (var i = 0; i < 9; i++) {
+  for (i = 0; i < 9; i++) {
     var line = [];
     for (var j = 0; j < 9; j++) {
       line.push(newCell(i, j, array[i][j], array[i][j] === null));

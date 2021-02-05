@@ -2,6 +2,7 @@ var React = require('react');
 var Store = require('./store');
 var Sudoku = require('./sudoku');
 var Boards = require('./boards');
+let colorClasses = ["black", "red", "yellow", "green", "blue"];
 import { Link } from 'react-router';
 
 class Cell extends React.Component {
@@ -24,13 +25,15 @@ class Cell extends React.Component {
 
   render() {
     var cell = this.props.cell;
-
     var classes = [];
     classes.push('i' + cell.i);
     classes.push('j' + cell.j);
     classes.push(cell.editable ? 'editable' : 'not-editable');
     classes.push(cell.hasConflict ? 'has-conflict' : 'no-conflict');
     classes.push(cell.selected ? 'on' : 'off');
+    if (cell.color != -1) {
+      classes.push(colorClasses[cell.color]);
+    }
 
     return (
       <td className={classes.join(' ')}>
@@ -140,6 +143,58 @@ class Controls extends React.Component {
   }
 }
 
+class ColorOption extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = Store.getState();
+    this.onClick = this.onClick.bind(this);
+  }
+
+  componentDidMount() {
+    var self = this;
+    self.unsubscribe = Store.subscribe(function () {
+      self.setState(Store.getState());
+    });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  render() {
+    let classList = [this.props.color];
+    if (colorClasses[this.state.game.selectedColor] == this.props.color) {
+      classList.push("selected")
+    }
+    return (
+      <div className={classList.join(" ")} onClick={this.onClick}>
+      </div>
+    );
+  }
+
+  onClick(event) {
+    event.preventDefault();
+    Store.dispatch({ type: 'CHANGE_ACTIVE_COLOR', color: colorClasses.indexOf(this.props.color) });
+  }
+}
+class Thrasher extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onClick = this.onClick.bind(this);
+  }
+
+  render() {
+    return (
+      <img src="./thrash.png" onClick={this.onClick} ></img>
+    );
+  }
+
+  onClick(event) {
+    event.preventDefault();
+    Store.dispatch({ type: 'THRASH' });
+  }
+}
+
 class DifficultyDialog extends React.Component {
   shouldComponentUpdate(newProps, newState) {
     return false;
@@ -148,7 +203,6 @@ class DifficultyDialog extends React.Component {
   constructor(props) {
     super(props);
     this.state = Store.getState();
-
     this.difficultyClick = this.difficultyClick.bind(this);
   }
 
@@ -228,6 +282,12 @@ class Game extends React.Component {
 
     return (
       <div>
+        <div className="colorPicker">
+          {colorClasses.map(function (color) {
+            return <ColorOption color={color} />;
+          })}
+          <Thrasher />
+        </div>
         <div className={"sudoku-title " + this.state.game.id.difficulty}>{this.state.game.id.difficulty + "_" + (this.state.game.id.id + 1) + "/" + this.state.game.id.attempt}</div>
         <table className="sudoku-table">
           <tbody>
